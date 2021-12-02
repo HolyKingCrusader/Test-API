@@ -80,24 +80,25 @@ func createNewArticle(w http.ResponseWriter, r *http.Request) {
 	Title := article.Title
 	Desc := article.Desc
 	Content := article.Content
-	if Id == "" || Title == "" || Desc == "" || Content == "" {
+	if Title == "" || Desc == "" || Content == "" {
 		http.Error(w, http.StatusText(400), 400)
 		return
 	}
 
-	result, err := db.Exec("INSERT INTO articlestable VALUES($1, $2, $3, $4)", Id, Title, Desc, Content)
+	result, err := db.Exec("INSERT INTO articlestable (title, description, content) VALUES($1, $2, $3)", Title, Desc, Content)
 	if err != nil {
 		http.Error(w, http.StatusText(500), 500)
 		fmt.Printf("Cannot create an article: %s\n", err)
 		return
 	}
 
+	lastInsertId, _ := result.LastInsertId()
 	rowsAffected, err := result.RowsAffected()
 	if err != nil {
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
-
+	fmt.Println(lastInsertId)
 	fmt.Fprintf(w, "Article %s created successfully. Rows Affected: %d\n", Id, rowsAffected)
 
 }
