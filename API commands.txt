@@ -1,0 +1,11 @@
+curl -X PUT -v http://localhost:10000/articles/1 -H 'Content-Type: application/json' -d '{
+    "Id": "1", 
+    "title": "Edited Title 1", 
+    "desc": "Edited Desc 1", 
+    "content": "Edited Content 1" }'
+
+curl -X POST -v http://localhost:10000/articles/create -H 'Content-Type: application/json' -d '{ 
+    "title": "Title 1", 
+    "desc": "Desc 1", 
+    "content": "Content 1" }'
+
